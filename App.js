@@ -1,20 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import { Hello } from './src/screens/SplashScreen';
+import { WarrantyDe } from './src/screens/WarrantyDetail';
+import {WarrantyList} from './src/screens/Dashboard';
+import {ProgressIndicator} from './src/screens/ActivityIndicator'
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Hello Would</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+const AppNavigator = createStackNavigator({
+  // 'Warranty Detail' : WarrantyDe 
+  // Warranties: WarrantyList
+  // 'Warranty Reminder' : Hello
+  'Progress' : ProgressIndicator
 });
+
+export default createAppContainer(AppNavigator);
