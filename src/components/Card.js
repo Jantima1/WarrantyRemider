@@ -1,19 +1,29 @@
 import React, {useState} from "react";
-import {ScrollView, StyleSheet, TextInput} from 'react-native';
+import {ScrollView, StyleSheet} from 'react-native';
 import { Text, Card, Button, Icon } from 'react-native-elements';
 
-const WarrantyCard = () => {
+    
+const WarrantyCard = ({dataObj}) => {
     return (
+        <>
         <ScrollView>
-            <Card>
-                <Card.Title>LIST 1</Card.Title>
-                <Card.Divider />
-            </Card>
-            <Card>
-                <Card.Title>LIST 2</Card.Title>
-                <Card.Divider />
-            </Card>
+            { dataObj ? (
+                <>
+                {dataObj.map((raw, index) => (
+                    <Card>
+                        <Card.Title>{raw.name}</Card.Title>
+                        <Card.Divider />
+                                <Text>Purchase Date: {raw.purchase_date}</Text>
+                                <Text>Expiration Date: {raw.expiration_date}</Text>
+                                <Text>Note: {raw.note}</Text>
+                    </Card>
+                ))}
+                </>
+            ): (
+                <></>
+            )}
         </ScrollView>
+        </>
     )
 }
 export{WarrantyCard}

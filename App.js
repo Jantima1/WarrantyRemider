@@ -1,13 +1,13 @@
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import { Hello } from './src/screens/SplashScreen';
-import { WarrantyDe } from './src/screens/WarrantyDetail';
 import {WarrantyList} from './src/screens/Dashboard';
+import { newWarrantyForm } from './src/screens/addNewWarranty'
 
 const AppNavigator = createStackNavigator({
-  'Warranty Detail' : WarrantyDe 
+  // 'Warranty Detail' : WarrantyDe, 
   // Warranties: WarrantyList
-  // 'Warranty Reminder' : Hello
+  // 'Warranty Reminder' : Hello,
+  'Add New Warranty': newWarrantyForm
 });
 
 export default createAppContainer(AppNavigator);

@@ -1,39 +1,52 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {ScrollView, StyleSheet, TextInput, Text} from 'react-native'
 import {Button} from 'react-native-elements'
 
-const NewWarrantyForm = ({ButtonText, OnSubmit, Children}) => {
-    const [WarrantyName, onChangeWarrantyName] = useState('')
+const NewWarrantyForm = ({buttonText, onSubmit, children}) => {
+    const [name, onChangeName] = useState('')
+    const [purchaseDate, onChangePurchaseDate] = useState('')
+    const [expirationDate, onChangeExpirationDate] = useState('')
+    const [note, onChangeNote] = useState('')
+
+    useEffect(() => {
+        console.log('Name input: ', name);
+        console.log('Start date input: ', purchaseDate);
+        console.log('End date input: ', expirationDate);
+        console.log('Note input: ', note);
+    }, [name, purchaseDate, expirationDate, note]);
 
     return(
         <ScrollView contentContainerStyle={styles.container}>
             <TextInput style={styles.input}
-                        onChangeText={text => onChangeWarrantyName(text)}
-                        value={WarrantyName}
-                        keyboardType='email-address'
+                        onChangeText={text => onChangeName(text)}
+                        value={name}
+                        keyboardType='default'
                         placeholder='Warranty Name'
             />{/*คำที่อยู่ในกล่อง*/}
             <TextInput style={styles.input}
-                        onChangeText={text => onChangeWarrantyName(text)}
-                        value={WarrantyName}
-                        keyboardType='email-address'
+                        onChangeText={text => onChangePurchaseDate(text)}
+                        value={purchaseDate}
+                        keyboardType='default'
                         placeholder='Purchase Date'
             />
             <TextInput style={styles.input}
-                        onChangeText={text => onChangeWarrantyName(text)}
-                        value={WarrantyName}
-                        keyboardType='email-address'
+                        onChangeText={text => onChangeExpirationDate(text)}
+                        value={expirationDate}
+                        keyboardType='default'
                         placeholder='Expiration Date'
             />
             <TextInput style={styles.input}
-                        onChangeText={text => onChangeWarrantyName(text)}
-                        value={WarrantyName}
-                        keyboardType='email-address'
+                        onChangeText={text => onChangeNote(text)}
+                        value={note}
+                        keyboardType='default'
                         placeholder='Note'
             />
+            <Button type="submit" 
+                title='Add warranty'
+                color= 'gray'
+                onPress={() => console.log('Buttom tpped')} />
         </ScrollView>
     )
-
 }
 const styles= StyleSheet.create({
     container: {
