@@ -1,13 +1,17 @@
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import {WarrantyList} from './src/screens/Dashboard';
-import { newWarrantyForm } from './src/screens/addNewWarranty'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NewWarrantyForm, Dashboard } from './src/screens';
+import './api/firebase'
 
-const AppNavigator = createStackNavigator({
-  // 'Warranty Detail' : WarrantyDe, 
-  // Warranties: WarrantyList
-  // 'Warranty Reminder' : Hello,
-  'Add New Warranty': newWarrantyForm
-});
+const Stack = createNativeStackNavigator();
 
-export default createAppContainer(AppNavigator);
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name='Warranties' component={Dashboard} />
+        <Stack.Screen name='Add New Warranty' component={NewWarrantyForm} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
