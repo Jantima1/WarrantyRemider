@@ -1,39 +1,4 @@
-// import React from 'react';
-// import { Image, Text, View, StyleSheet } from 'react-native';
-// import {WarrantyCard} from '../components/Card';
-
-// const Dashboard = ({ navigation }) => {
-//     let data_test = [
-//         {
-//         name: 'name',
-//         pyuchase_date: 'purchaseDate',
-//         expiration_date: 'expirationDate',
-//         note: 'note'
-//         },
-//         {
-//         name: 'name1',
-//         purchase_date: 'purchaseDate1',
-//         expiration_date: 'expirationDate1',
-//         note: 'note1'
-//         },
-//         {
-//             name: 'name2',
-//             purchase_date: 'purchaseDate2',
-//             expiration_date: 'expirationDate2',
-//             note: 'note2'
-//         },
-//         ];
-//     console.log(data_test);
-//     return (
-//         <View style={{flex:1}}>
-//             <WarrantyCard dataObj={data_test}/>
-//         </View>
-//     );
-//   };
-  
-//   export { Dashboard };
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Image,
   Text,
@@ -42,31 +7,65 @@ import {
   Button,
   TouchableOpacity
 } from 'react-native';
+import { SearchBar } from 'react-native-elements';
 import { WarrantyCard } from '../components/Card';
-import { getDatabase, ref, onValue } from 'firebase/database';
+// import { getDatabase, ref, onValue } from 'firebase/database';
+import { FirebaseContext } from '../api/firebase';
+import { TextInput } from 'react-native-gesture-handler';
 
 const Dashboard = ({ navigation }) => {
+  const firebase = useContext(FirebaseContext);
   const [warrantyList, setWarrantyList] = useState([]);
+  const [search, setSearch] = useState('');
 
-  function fetchDate() {
-    const db = getDatabase();
-    const reference = ref(db, '/warranty/-MwwaFazpFVbdpVuJz7L');
-    onValue(reference, snapshot => {
-      const warranty = snapshot.val();
-      console.log('warranty_list: ', warranty);
-      //   setWarrantyList([warranty]);
+  const updateSearch = data => {
+    setSearch(data);
+    let obj = warrantyList.find(o => 
+        o.name.toLowerCase === data.toLowerCase ||
+        o.note.toLowerCase === data.toLowerCase
+        );
+    if (obj) {
+      console.log(obj);
+      setWarrantyList([obj]);
+    } else {
+        fetchDate();
+    }
+  };
+
+  async function fetchDate() {
+    let list_obj = [];
+    await firebase.db.ref('/warranty').once('value', function (snap) {
+      snap.forEach(childSnapshot => {
+        const childData = childSnapshot.val().warranty_list;
+        list_obj.push(childData);
+      });
     });
+    setWarrantyList(list_obj);
   }
+
   useEffect(() => {
-    fetchDate();
-  }, []);
+    // The screen is focused
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchDate();
+      // Call any action
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
 
   const clickAdd = () => {
     navigation.navigate('Add New Warranty');
   };
+
   return (
     <>
       <View style={styles.screen}>
+        <SearchBar
+          placeholder='Type Here...'
+          onChangeText={updateSearch}
+          value={search}
+        />
         <WarrantyCard dataObj={warrantyList} />
       </View>
       <TouchableOpacity style={styles.roundButton1} onPress={() => clickAdd()}>

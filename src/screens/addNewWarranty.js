@@ -2,11 +2,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { Button } from 'react-native-elements';
 
-import { getDatabase, ref, push } from 'firebase/database';
+import { FirebaseContext } from '../api/firebase';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const NewWarrantyForm = ({ buttonText, onSubmit, children }) => {
-  //   const firebase = useContext(FirebaseContext);
+const NewWarrantyForm = ({ navigation }) => {
+  const firebase = useContext(FirebaseContext);
   const [name, onChangeName] = useState('');
   const [purchaseDate, onChangePurchaseDate] = useState(new Date());
   const [expirationDate, onChangeExpirationDate] = useState(new Date());
@@ -24,11 +24,10 @@ const NewWarrantyForm = ({ buttonText, onSubmit, children }) => {
   };
 
   console.log(purchaseDate);
-
-  function createData(data) {
-    const db = getDatabase();
-    const reference = ref(db, '/warranty');
-    push(reference, data);
+//เชื่อมต่อไฟล์ firebase
+  async function createData(data) {
+    await firebase.db.ref('/warranty').push(data);
+    console.log('Push data : ', data);
   }
 
   useEffect(() => {
@@ -41,10 +40,11 @@ const NewWarrantyForm = ({ buttonText, onSubmit, children }) => {
       }
     });
   }, [name, purchaseDate, expirationDate, note]);
-
+//
   const submit = () => {
     createData(dataIn);
     console.log('create new warranty : ', dataIn);
+    navigation.navigate('Warranties');
   };
 
   //   console.log(test);
@@ -59,15 +59,6 @@ const NewWarrantyForm = ({ buttonText, onSubmit, children }) => {
           keyboardType='default'
           placeholder='Warranty Name'
         />
-        {/*คำที่อยู่ในกล่อง*/}
-        {/* <TextInput
-          style={styles.inputContainer}
-          onChangeText={text => onChangePurchaseDate(text)}
-          value={purchaseDate}
-          keyboardType='default'
-          placeholder='Purchase Date'
-        /> */}
-
         <DateTimePicker
           style={styles.inputContainer}
           value={purchaseDate}
@@ -81,13 +72,7 @@ const NewWarrantyForm = ({ buttonText, onSubmit, children }) => {
           onChange={onChangeExpiration}
           placeholderText='Expiration Date'
         />
-        {/* <TextInput
-          style={styles.inputContainer}
-          onChangeText={text => onChangeExpirationDate(text)}
-          value={expirationDate}
-          keyboardType='default'
-          placeholder='Expiration Date'
-        />*/}
+
         <TextInput
           style={styles.inputContainer}
           onChangeText={text => onChangeNote(text)}
