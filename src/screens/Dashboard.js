@@ -8,7 +8,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { SearchBar } from 'react-native-elements';
-import { WarrantyCard } from '../components/Card';
+import { WarrantyCard } from '../components/card';
 // import { getDatabase, ref, onValue } from 'firebase/database';
 import { FirebaseContext } from '../api/firebase';
 import { TextInput } from 'react-native-gesture-handler';
@@ -21,8 +21,8 @@ const Dashboard = ({ navigation }) => {
   const updateSearch = data => {
     setSearch(data);
     let obj = warrantyList.find(o => 
-        o.name.toLowerCase === data.toLowerCase ||
-        o.note.toLowerCase === data.toLowerCase
+        o.name.toLowerCase === data.toLowerCase //||
+        // o.note.toLowerCase === data.toLowerCase
         );
     if (obj) {
       console.log(obj);
@@ -63,7 +63,9 @@ const Dashboard = ({ navigation }) => {
       <View style={styles.screen}>
         <SearchBar
           placeholder='Type Here...'
-          onChangeText={updateSearch}
+          onChangeText={(text) => updateSearch(text)}
+          onClear={(text) => updateSearch('')}
+        //   onChangeText={updateSearch}
           value={search}
         />
         <WarrantyCard dataObj={warrantyList} />

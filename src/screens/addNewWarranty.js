@@ -60,6 +60,7 @@ const NewWarrantyForm = ({ navigation }) => {
           placeholder='Warranty Name'
         />
         <DateTimePicker
+          locale='string'
           style={styles.inputContainer}
           value={purchaseDate}
           onChange={onChangePurchase}
@@ -67,6 +68,7 @@ const NewWarrantyForm = ({ navigation }) => {
         />
 
         <DateTimePicker
+          locale='string'
           style={styles.inputContainer}
           value={expirationDate}
           onChange={onChangeExpiration}

@@ -1,3 +1,4 @@
 export * from './addNewWarranty'
-export * from './Dashboard'
-export * from './HomeScreen'
+export * from './dashboard'
+export * from './homeScreen'
+export * from './editWarrantyDetail'

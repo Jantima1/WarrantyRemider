@@ -14,6 +14,7 @@ export default function App() {
           <Stack.Screen name='Warranty Reminder' component={HomeScreen} />
           <Stack.Screen name='Warranties' component={Dashboard} />
           <Stack.Screen name='Add New Warranty' component={NewWarrantyForm} />
+          {/* <Stack.Screen name='Edit Warranty Detail' component={EditWarrantyDetail} /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </FirebaseProvider>

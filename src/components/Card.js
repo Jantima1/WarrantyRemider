@@ -15,6 +15,12 @@ const WarrantyCard = ({ dataObj }) => {
                 <Text>Purchase Date: {raw.purchaseDate}</Text>
                 <Text>Expiration Date: {raw.expirationDate}</Text>
                 <Text>Note: {raw.note}</Text>
+                <Icon
+                    onPress={() => console.log('hello')}
+                    name='sc-telegram'
+                    type='evilicon'
+                    color='#517fa4'
+                  />
               </Card>
             ))}
           </>
